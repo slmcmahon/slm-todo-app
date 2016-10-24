@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage To Do Items</title>
+</head>
+<body>
+{% if data.todos %}
+<ul>
+    {% for todoitem in data.todos %}
+    <li><a href="/completetodo/{{ todoitem.key.urlsafe() }}">Complete</a> | <a href="/deletetodo/{{ todoitem.key.urlsafe() }}">Delete</a> {{ todoitem.text }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+No Todo Items
+{% endif %}
+<hr/>
+Add Todo Item:<br/>
+<form method="post" action="/addtodo">
+    Text: <input type="text" name="todotext"><br>
+    <input type="submit" value="Save"/>
+</form>
+</body>
+</html>
