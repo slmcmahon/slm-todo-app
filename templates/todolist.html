@@ -3,21 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Manage To Do Items</title>
+    <script language="javascript">
+        function complete(key) {
+            window.location = '/completetodo/' + key;
+        }
+    </script>
 </head>
 <body>
+
 {% if data.todos %}
-<ul>
-    {% for todoitem in data.todos %}
-    <li><a href="/completetodo/{{ todoitem.key.urlsafe() }}">Complete</a> | <a href="/deletetodo/{{ todoitem.key.urlsafe() }}">Delete</a> {{ todoitem.text }}</li>
-    {% endfor %}
-</ul>
+
+{% for todoitem in data.todos %}
+<input type="radio" onclick="complete('{{ todoitem.key.urlsafe() }}')"> {{ todoitem.text }} {% if not todoitem.active %}(closed){% endif %} <a href="/deletetodo/{{ todoitem.key.urlsafe() }}">Delete</a></li><br>
+{% endfor %}
+
 {% else %}
 No Todo Items
 {% endif %}
-<hr/>
-Add Todo Item:<br/>
+<hr/><br/>
+Add Todo Item:<br/><br/>
 <form method="post" action="/addtodo">
-    Text: <input type="text" name="todotext"><br>
+    Text: <input type="text" name="todotext" size="100"><br>
+    Due Date: <input type="text" name="duedate" value="{{ data.now }}"><br>
+    <input type="hidden" name="show_closed" value="{{ data.show_closed }}"/>
     <input type="submit" value="Save"/>
 </form>
 </body>
