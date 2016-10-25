@@ -1,6 +1,5 @@
 from flask import Flask, render_template, redirect, request
 from google.appengine.api import users
-#import logging
 from todomanager import TodoManager
 
 app = Flask(__name__)
@@ -15,7 +14,7 @@ def get_todo_items():
     mgr = TodoManager()
     todos = mgr.get_todo_items(user)
 
-    return render_template('todolist.html', data = { 'todos': todos })
+    return render_template('todolist.html', data={'todos': todos})
 
 
 @app.route('/addtodo', methods=['POST'])
@@ -37,6 +36,7 @@ def complete_todo(key):
 
     TodoManager.close_todo(key)
     return redirect('/')
+
 
 @app.route('/deletetodo/<key>')
 def delete_todo(key):
